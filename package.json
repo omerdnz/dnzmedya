@@ -1,0 +1,30 @@
+{
+  "name": "dnzmedya",
+  "version": "2.0.0",
+  "private": true,
+  "description": "DNZMEDYA V2 — Enterprise Dijital Ajans Platformu",
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "typecheck": "turbo typecheck",
+    "db:generate": "pnpm --filter @dnzmedya/database generate",
+    "db:push": "pnpm --filter @dnzmedya/database push",
+    "db:migrate": "pnpm --filter @dnzmedya/database migrate",
+    "db:seed": "pnpm --filter @dnzmedya/database seed",
+    "db:studio": "pnpm --filter @dnzmedya/database studio",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "clean": "turbo clean && rimraf node_modules"
+  },
+  "devDependencies": {
+    "rimraf": "^6.0.1",
+    "turbo": "^2.5.4",
+    "typescript": "^5.8.3"
+  },
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  }
+}

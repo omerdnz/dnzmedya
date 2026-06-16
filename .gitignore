@@ -1,0 +1,43 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build
+dist/
+.next/
+out/
+.turbo/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Uploads (local storage)
+uploads/
+!uploads/.gitkeep
+
+# Prisma
+packages/database/prisma/migrations/**/migration_lock.toml
+
+# Test
+coverage/
+.nyc_output/
+
+*.db
+*.db-journal
