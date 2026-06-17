@@ -3,7 +3,8 @@
   "version": "2.0.0",
   "private": true,
   "scripts": {
-    "build": "nest build --no-check",
+    "prebuild": "npx prisma generate --schema=../../packages/database/prisma/schema.prisma",
+    "build": "tsc -p tsconfig.build.json",
     "dev": "nest start --watch",
     "start": "node dist/main",
     "start:prod": "node dist/main",
