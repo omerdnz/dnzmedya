@@ -40,9 +40,11 @@ export function Footer({ settings }: FooterProps) {
   const address = str(site.address, 'Muratpaşa, Antalya, TR');
   const copyright = str(site.copyright, "© Tüm Telif Hakları 2026 DNZMEDYA'ya aittir");
 
-  const socialEntries = Object.entries(SOCIAL_LABELS)
-    .map(([key, label]) => ({ key, label, href: str(social[key]) }))
-    .filter((item) => item.href && item.href !== '#');
+  const socialEntries = Object.entries(SOCIAL_LABELS).map(([key, label]) => ({
+    key,
+    label,
+    href: str(social[key]) || '#',
+  }));
 
   return (
     <footer className="relative overflow-hidden border-t border-white/10 bg-brand-dark">
@@ -54,24 +56,21 @@ export function Footer({ settings }: FooterProps) {
           <div className="md:col-span-2">
             <LogoInline className="mb-6 h-12 md:h-14 drop-shadow-[0_0_18px_rgba(0,206,209,0.28)]" />
             <p className="max-w-md leading-relaxed text-brand-gray-400">{description}</p>
-            {socialEntries.length > 0 && (
-              <div className="mt-6 flex gap-3">
-                {socialEntries.map((socialItem) => (
-                  <motion.a
-                    key={socialItem.key}
-                    href={socialItem.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    whileHover={{ y: -3, scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-sm text-brand-gray-400 transition-colors hover:border-brand-gold/40 hover:text-brand-gold"
-                    aria-label={socialItem.key}
-                  >
-                    {socialItem.label}
-                  </motion.a>
-                ))}
-              </div>
-            )}
+            <div className="mt-6 flex gap-3">
+              {socialEntries.map((socialItem) => (
+                <motion.a
+                  key={socialItem.key}
+                  href={socialItem.href}
+                  {...(socialItem.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                  whileHover={{ y: -3, scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-sm text-brand-gray-400 transition-colors hover:border-brand-gold/40 hover:text-brand-gold"
+                  aria-label={socialItem.key}
+                >
+                  {socialItem.label}
+                </motion.a>
+              ))}
+            </div>
           </div>
 
           <div>

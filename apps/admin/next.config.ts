@@ -11,7 +11,6 @@ function loadMonorepoEnv() {
       path.resolve(process.cwd(), '..'),
       path.resolve(process.cwd(), '../..'),
     ];
-
     for (const dir of candidates) {
       if (existsSync(path.join(dir, '.env')) || existsSync(path.join(dir, '.env.local'))) {
         loadEnvConfig(dir);

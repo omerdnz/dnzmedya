@@ -1,0 +1,94 @@
+# DNZMEDYA — Render Blueprint
+# Dashboard: New > Blueprint > Connect repo > render.yaml
+
+databases:
+  - name: dnzmedya-db
+    databaseName: dnzmedya
+    user: dnzmedya
+    plan: free
+    region: frankfurt
+
+services:
+  # ─── API (NestJS) ───
+  - type: web
+    name: dnzmedya-api
+    runtime: node
+    plan: free
+    region: frankfurt
+    buildCommand: bash scripts/render-build-api.sh
+    startCommand: bash scripts/render-start-api.sh
+    releaseCommand: bash scripts/render-release.sh
+    healthCheckPath: /api/v1/hero/active
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: dnzmedya-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: RUN_SEED
+        value: "true"
+      - key: STORAGE_DRIVER
+        value: local
+      - key: STORAGE_LOCAL_PATH
+        value: uploads
+      - key: STORAGE_PUBLIC_URL
+        sync: false
+      - key: CORS_ORIGINS
+        sync: false
+
+  # ─── Web (vitrin) ───
+  - type: web
+    name: dnzmedya-web
+    runtime: node
+    plan: free
+    region: frankfurt
+    buildCommand: bash scripts/render-build-web.sh
+    startCommand: bash scripts/render-start-web.sh
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_PUBLIC_API_URL
+        fromService:
+          type: web
+          name: dnzmedya-api
+          envVarKey: RENDER_EXTERNAL_URL
+      - key: NEXT_PUBLIC_SITE_URL
+        fromService:
+          type: web
+          name: dnzmedya-web
+          envVarKey: RENDER_EXTERNAL_URL
+      - key: GROQ_API_KEY
+        sync: false
+
+  # ─── Admin panel ───
+  - type: web
+    name: dnzmedya-admin
+    runtime: node
+    plan: free
+    region: frankfurt
+    buildCommand: bash scripts/render-build-admin.sh
+    startCommand: bash scripts/render-start-admin.sh
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_PUBLIC_API_URL
+        fromService:
+          type: web
+          name: dnzmedya-api
+          envVarKey: RENDER_EXTERNAL_URL
+      - key: NEXT_PUBLIC_ADMIN_URL
+        fromService:
+          type: web
+          name: dnzmedya-admin
+          envVarKey: RENDER_EXTERNAL_URL

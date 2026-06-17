@@ -59,12 +59,8 @@ pnpm build
 
 ## Canlıya Alma
 
-Detaylı rehber: **[DEPLOY.md](./DEPLOY.md)**
-
-```bash
-# Docker (ilk kurulum)
-RUN_SEED=true docker compose up -d --build
-```
+- **Render:** [RENDER.md](./RENDER.md) — Blueprint ile 4 servis
+- **VPS/Docker:** [DEPLOY.md](./DEPLOY.md)
 
 ## Proje Yapısı
 
